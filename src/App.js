@@ -1,25 +1,48 @@
-import logo from './logo.svg';
 import './App.css';
+import {Modal} from "./components";
+import {useState} from "react";
+
+const MAIN_STYLES = {
+    position: "relative",
+    zIndex: 1
+}
+
+const OTHER_CONTENT_STYLES = {
+    position: "relative",
+    zIndex: 2,
+    backgroundColor: 'green',
+}
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [visible, setVisible] = useState(false)
+    const [visibleSecond, setVisibleSecond] = useState(false)
+
+    return (
+        <div className="App">
+            <main style={MAIN_STYLES}>
+                <button onClick={() => setVisible(s => !s)}>
+                    Toggle first modal
+                </button>
+                <Modal visible={visible} onClose={() => setVisible(false)}>
+                    <div>
+                        This is content of first modal
+                        <button onClick={() => setVisibleSecond(s => !s)}>
+                            Toggle second modal
+                        </button>
+                    </div>
+                </Modal>
+                <Modal visible={visibleSecond} onClose={() => setVisibleSecond(false)}>
+                    This is content of second modal
+                    <button onClick={() => setVisible(false)}>
+                        Close first modal
+                    </button>
+                </Modal>
+            </main>
+            <div style={OTHER_CONTENT_STYLES}>
+                Other content
+            </div>
+        </div>
+    );
 }
 
 export default App;
